@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue カラー診断</title>
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="fea">
+      <div class="ct" id="ct">
+        <div class="ct__start-btn" @click="start">カラー診断スタート</div>
+
+        <div class="ct__ui" v-if="uiVixible" :class="{'on': uiVixible}">
+          <div class="ct__ui-bg" @click.stop="cancel"></div>
+
+          <div
+            class="question__area"
+            v-if="startState"
+            :class="{'on': startState}"
+          >
+            <div class="question__inner">
+              <p class="question__title">{{ watchTextCount }}</p>
+              <ul class="question__list">
+                <li
+                  class="question__answer"
+                  v-for="(question, index) in watchAnswerCount"
+                  :key="questions"
+                  @click="answer(index)"
+                >
+                  {{question}}
+                </li>
+              </ul>
+
+              <div class="ct__restart-btn" @click="restart">
+                カラー診断をやり直す
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="result__area"
+            v-else-if="finishState"
+            :class="{'on': finishState}"
+          >
+            <div class="result__inner">
+              <h3 class="result__title">診断結果</h3>
+              <p class="result__text" :data-color="favoriteColorStyle">
+                あなたの好きな色は<span :style="{color: favoriteColorStyle}"
+                  >{{favoriteColor}}</span
+                >です！
+              </p>
+
+              <div class="ct__restart-btn" @click="restart">
+                カラー診断をやり直す
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- .ct__ui -->
+      </div>
+      <!-- #ct -->
+    </div>
+    <!-- .fea -->
+  </body>
+</html>
